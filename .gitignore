@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Environment files (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+.vite/
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Prisma generated client (only if you configure a custom output path)
+backend/src/generated/
+
+# Test / coverage
+coverage/
+
+# Docker volumes (if you ever bind-mount locally)
+pgdata/
+redisdata/
+esdata/
