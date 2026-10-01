@@ -1,4 +1,4 @@
-import IORedis from "ioredis";
-import { env } from "./env";
+import IORedis from 'ioredis'
+import { env } from './env'
 
-export const redis = new IORedis(env.REDIS_URL, { maxRetriesPerRequest: null });
+export const redis = new IORedis(env.REDIS_URL, { maxRetriesPerRequest: null })

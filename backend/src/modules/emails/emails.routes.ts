@@ -4,6 +4,7 @@ import { AuthRequest, requireAuth } from '../../middleware/auth'
 import { scheduleSchema } from './emails.schema'
 import { scheduleEmails } from './emails.service'
 import { searchEmails } from '../search/emailIndex'
+import { redis } from '../../config/redis'
 
 const router = Router()
 router.use(requireAuth)
@@ -27,8 +28,17 @@ router.post('/schedule', async (req: AuthRequest, res) => {
   const parsed = scheduleSchema.safeParse(req.body)
   if (!parsed.success)
     return res.status(400).json({ error: parsed.error.flatten() })
+
+  const key = req.header('Idempotency-Key')
+  const cacheKey = `idem:${req.userId}:${key}`
+  if (key) {
+    const cached = await redis.get(cacheKey)
+    if (cached) return res.status(200).json(JSON.parse(cached))
+  }
+
   const result = await scheduleEmails(req.userId!, parsed.data)
   if (!result) return res.status(404).json({ error: 'Sender not found' })
+  if (key) await redis.set(cacheKey, JSON.stringify(result), 'EX', 86400)
   res.status(201).json(result)
 })
 

@@ -17,7 +17,7 @@ ensureIndex().catch(err => console.error('Search setup failed:', err.message))
 const app = express()
 
 app.use(cors({ origin: env.FRONTEND_URL, credentials: true }))
-app.use(express.json())
+app.use(express.json({ limit: '5mb' }))
 app.use(cookieParser())
 
 const boardAdapter = new ExpressAdapter()

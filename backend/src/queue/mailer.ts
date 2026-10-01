@@ -1,17 +1,17 @@
-import nodemailer, { Transporter } from "nodemailer";
-import { Sender } from "../generated/prisma/client";
+import nodemailer, { Transporter } from 'nodemailer'
+import { Sender } from '../generated/prisma/client'
 
-const cache = new Map<string, Transporter>();
+const cache = new Map<string, Transporter>()
 
-export function getTransport(sender: Sender) {
-  let transport = cache.get(sender.id);
+export function getTransport (sender: Sender) {
+  let transport = cache.get(sender.id)
   if (!transport) {
     transport = nodemailer.createTransport({
       host: sender.smtpHost,
       port: sender.smtpPort,
-      auth: { user: sender.smtpUser, pass: sender.smtpPass },
-    });
-    cache.set(sender.id, transport);
+      auth: { user: sender.smtpUser, pass: sender.smtpPass }
+    })
+    cache.set(sender.id, transport)
   }
-  return transport;
+  return transport
 }
