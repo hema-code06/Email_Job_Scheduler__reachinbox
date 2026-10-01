@@ -65,4 +65,18 @@ router.get('/sent', async (req: AuthRequest, res) => {
   )
 })
 
+router.get('/:id', async (req: AuthRequest, res) => {
+  const email = await prisma.email.findFirst({
+    where: { id: req.params.id, userId: req.userId },
+    select: {
+      ...fields,
+      body: true,
+      error: true,
+      sender: { select: { email: true } }
+    }
+  })
+  if (!email) return res.status(404).json({ error: 'Email not found' })
+  res.json(email)
+})
+
 export default router

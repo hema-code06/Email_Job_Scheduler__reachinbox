@@ -19,3 +19,9 @@ export interface Sender {
   id: string
   email: string
 }
+
+export interface EmailDetail extends Email {
+  body: string
+  error: string | null
+  sender: { email: string }
+}

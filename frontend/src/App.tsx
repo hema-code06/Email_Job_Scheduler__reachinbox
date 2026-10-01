@@ -4,6 +4,7 @@ import DashboardLayout from './components/DashboardLayout'
 import EmailTable from './components/EmailTable'
 import LoginPage from './pages/LoginPage'
 import ComposePage from './pages/ComposePage'
+import EmailDetailPage from './pages/EmailDetailPage'
 
 export default function App () {
   return (
@@ -15,6 +16,7 @@ export default function App () {
           <Route index element={<Navigate to='scheduled' replace />} />
           <Route path='scheduled' element={<EmailTable kind='scheduled' />} />
           <Route path='sent' element={<EmailTable kind='sent' />} />
+          <Route path='emails/:id' element={<EmailDetailPage />} />
         </Route>
       </Route>
       <Route path='*' element={<Navigate to='/dashboard' replace />} />

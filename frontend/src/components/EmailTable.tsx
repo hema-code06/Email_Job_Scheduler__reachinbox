@@ -3,6 +3,7 @@ import { useEmails, type EmailKind } from '../hooks/useEmails'
 import { useDebounce } from '../hooks/useDebounce'
 import { formatDateTime } from '../lib/format'
 import StatusBadge from './StatusBadge'
+import { useNavigate } from 'react-router-dom'
 
 const text = {
   scheduled: { timeLabel: 'Scheduled time', empty: 'No scheduled emails' },
@@ -10,6 +11,7 @@ const text = {
 }
 
 export default function EmailTable ({ kind }: { kind: EmailKind }) {
+  const navigate = useNavigate()
   const [search, setSearch] = useState('')
   const q = useDebounce(search.trim())
   const { data, isLoading, isError } = useEmails(kind, q)
@@ -37,7 +39,11 @@ export default function EmailTable ({ kind }: { kind: EmailKind }) {
         </thead>
         <tbody>
           {data.map(e => (
-            <tr key={e.id} className='border-b border-gray-100'>
+            <tr
+              key={e.id}
+              onClick={() => navigate(`/dashboard/emails/${e.id}`)}
+              className='cursor-pointer border-b border-gray-100 hover:bg-gray-50'
+            >
               <td className='px-6 py-4'>{e.toEmail}</td>
               <td className='px-6 py-4'>{e.subject}</td>
               <td className='px-6 py-4'>
