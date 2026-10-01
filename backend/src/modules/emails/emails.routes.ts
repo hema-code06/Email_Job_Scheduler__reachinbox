@@ -67,7 +67,7 @@ router.get('/sent', async (req: AuthRequest, res) => {
 
 router.get('/:id', async (req: AuthRequest, res) => {
   const email = await prisma.email.findFirst({
-    where: { id: req.params.id, userId: req.userId },
+    where: { id: String(req.params.id), userId: req.userId },
     select: {
       ...fields,
       body: true,
